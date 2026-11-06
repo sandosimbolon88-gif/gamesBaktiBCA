@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Pulang ke Banyuwangi</title>
+  <meta name="description" content="Game edukasi konservasi penyu Banyuwangi. Bakti Lingkungan, Bakti BCA.">
+  <meta name="theme-color" content="#0a3f6b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Area permainan 1280x720, diskalakan menyesuaikan layar -->
+  <div id="stage">
+    <canvas id="game" width="1280" height="720" aria-label="Area permainan"></canvas>
+  </div>
+
+  <!-- Tombol pojok -->
+  <div id="corner">
+    <button id="btnSound" class="icon-btn" aria-label="Suara">🔊</button>
+    <button id="btnFull" class="icon-btn" aria-label="Layar penuh">⛶</button>
+    <button id="btnPause" class="icon-btn hidden" aria-label="Jeda">❚❚</button>
+  </div>
+
+  <div id="ui">
+    <!-- JUDUL -->
+    <section id="scrTitle" class="screen">
+      <div class="title-wrap">
+        <div class="title-main">
+          <div class="chip">BAKTI LINGKUNGAN &nbsp; / &nbsp; EKSPLORASI 01</div>
+          <h1 id="titleText">Pulang ke Banyuwangi</h1>
+          <p id="subtitleText" class="lead"></p>
+          <p class="title-meta">4 SPESIES &nbsp; · &nbsp; 5 TAHAP &nbsp; · &nbsp; 1 PERJALANAN PULANG</p><div class="btn-col">
+            <button class="btn primary big" data-go="species">Mulai petualangan &nbsp; →</button>
+            <button class="btn" data-go="board">Papan Juara</button>
+            <button class="btn" data-go="facts">Fakta Penyu</button>
+          </div>
+        </div>
+        <aside class="title-board panel-soft">
+          <div class="chip tiny">JEJAK PENJELAJAH</div><h3>Juara hari ini</h3>
+          <ol id="titleTop" class="mini-board"></ol>
+        </aside>
+      </div>
+      <footer class="title-foot"><span id="programLabel" class="program-label" title="Tahan untuk menu operator"></span></footer>
+    </section>
+
+    <!-- PILIH PENYU -->
+    <section id="scrSpecies" class="screen hidden">
+      <div class="panel wide">
+        <h2>Pilih Penyumu</h2>
+        <p class="muted">Empat spesies yang tercatat bertelur di Banyuwangi. Setiap penyu punya makanan dan perjalanan berbeda.</p>
+        <div id="speciesCards" class="cards four"></div><p class="tiny muted">Status IUCN global; kondisi populasi lokal dapat berbeda. <a class="source-inline" href="https://www.iucn-mtsg.org/statuses" target="_blank" rel="noopener noreferrer">Lihat sumber IUCN ↗</a></p>
+        <div class="btn-row">
+          <button class="btn" data-go="title">Kembali</button>
+          <button id="btnSpeciesNext" class="btn primary" disabled>Lanjut</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PILIH CARA MENETAS -->
+    <section id="scrHatch" class="screen hidden">
+      <div class="panel wide">
+        <h2>Awal perjalananmu</h2>
+        <p class="muted">Pilih tantangan permainan. Mode ini tidak membandingkan keberhasilan metode konservasi di alam.</p>
+        <div id="hatchCards" class="cards three"></div>
+        <p id="hatchNote" class="note"></p>
+        <div class="btn-row">
+          <button class="btn" data-go="species">Kembali</button>
+          <button id="btnHatchStart" class="btn primary" disabled>Mulai!</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- KARTU TAHAP -->
+    <section id="scrCard" class="screen hidden dim">
+      <div class="panel card-stage">
+        <div class="chip" id="cardLabel"></div>
+        <h2 id="cardName"></h2>
+        <p id="cardPlace" class="muted"></p>
+        <p id="cardText" class="lead-sm"></p>
+        <ul id="cardTips" class="tips"></ul>
+        <div class="fact-box"><b>Tahukah kamu?</b><span id="cardFact"></span><a id="cardSource" class="source-link" target="_blank" rel="noopener noreferrer">Sumber biologi · NOAA ↗</a></div>
+        <div class="btn-row center">
+          <button id="btnCardGo" class="btn primary big">Lanjut</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- JEDA -->
+    <section id="scrPause" class="screen hidden dim">
+      <div class="panel small">
+        <h2>Permainan Dijeda</h2>
+        <div class="btn-col">
+          <button id="btnResume" class="btn primary big">Lanjut Main</button>
+          <button id="btnQuit" class="btn">Keluar ke Menu</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PERJALANAN BERAKHIR -->
+    <section id="scrOver" class="screen hidden dim">
+      <div class="panel small center-text">
+        <h2>Perjalanan Berakhir</h2>
+        <p id="overReason" class="lead-sm"></p>
+        <div class="fact-box"><b>Tahukah kamu?</b><span>Tukik menghadapi banyak ancaman sebelum dewasa. Peluang hidup berbeda antarspesies dan populasi; menjaga habitat membantu mereka bertahan.</span></div>
+        <div class="btn-row center"><button id="btnOverNext" class="btn primary big">Lanjut ke Kuis</button></div>
+      </div>
+    </section>
+
+    <!-- KUIS -->
+    <section id="scrQuiz" class="screen hidden dim">
+      <div class="panel quiz">
+        <div class="chip" id="quizCount"></div>
+        <h2 id="quizQ"></h2>
+        <div id="quizOpts" class="quiz-opts"></div>
+        <p id="quizFeedback" class="feedback"></p>
+        <div class="btn-row center"><button id="btnQuizSkip" class="btn">Lewati kuis</button></div>
+      </div>
+    </section>
+
+    <!-- HASIL & NAMA -->
+    <section id="scrResult" class="screen hidden dim">
+      <div class="panel wide result">
+        <div class="result-left">
+          <h2 id="resultTitle">Hasil Perjalanan</h2>
+          <table id="resultTable" class="score-table"></table>
+        </div>
+        <div class="result-right">
+          <h3>Tulis nama panggilanmu</h3>
+          <div id="nameBox" class="name-box"><span id="nameText"></span><span class="caret"></span></div>
+          <p class="muted tiny">Cukup nama panggilan, tanpa data pribadi.</p>
+          <div id="keyboard" class="keyboard"></div>
+          <div class="btn-row center">
+            <button id="btnSave" class="btn primary big">Simpan Skor</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAPAN JUARA -->
+    <section id="scrBoard" class="screen hidden dim">
+      <div class="panel board">
+        <h2>Papan Juara</h2>
+        <div class="tabs">
+          <button class="tab active" data-mode="hari">Hari Ini</button>
+          <button class="tab" data-mode="semua">Sepanjang Pameran</button>
+        </div>
+        <table id="boardTable" class="board-table"></table>
+        <p id="boardMine" class="muted center-text"></p>
+        <div class="btn-row center"><button id="btnBoardNext" class="btn primary big">Lanjut</button></div>
+      </div>
+    </section>
+
+    <!-- AJAKAN BAKTI BCA -->
+    <section id="scrCta" class="screen hidden dim">
+      <div class="panel wide cta">
+        <div class="cta-left">
+          <div class="chip">Bakti Lingkungan · Bakti BCA</div>
+          <h2 id="ctaTitle"></h2>
+          <div id="ctaParas"></div>
+          <div id="ctaStats" class="stats"></div>
+          <p id="ctaClose" class="cta-close"></p>
+        </div>
+        <div class="cta-right">
+          <div id="ctaQr" class="qr"></div>
+          <p id="ctaQrLabel" class="tiny center-text"></p>
+          <h3 id="ctaActTitle"></h3>
+          <ul id="ctaActs" class="acts"></ul>
+          <p id="ctaBooth" class="booth hidden"></p>
+          <p id="ctaTag" class="tag"></p>
+        </div>
+        <div class="btn-row center full"><button id="btnCtaDone" class="btn primary big">Selesai</button></div>
+      </div>
+    </section>
+
+    <!-- FAKTA -->
+    <section id="scrFacts" class="screen hidden dim">
+      <div class="panel wide">
+        <div class="chip">CATATAN SAMUDRA</div><h2>Kenali yang kamu jaga.</h2><p class="muted">Diperiksa 6 November 2026. Ketuk sumber di setiap kartu untuk membaca lebih lanjut.</p>
+        <div id="factList" class="fact-list"></div>
+        <div class="btn-row center"><button class="btn primary" data-go="title">Kembali</button></div>
+      </div>
+    </section>
+
+    <!-- OPERATOR -->
+    <section id="scrOp" class="screen hidden dim">
+      <div class="panel">
+        <h2>Menu Operator</h2>
+        <div class="op-grid">
+          <label class="toggle"><input type="checkbox" id="opQuick"> Mode Cepat (sesi ±3 menit)</label>
+          <label class="toggle"><input type="checkbox" id="opMute"> Matikan suara</label>
+        </div>
+        <h3>Statistik perangkat ini</h3>
+        <div id="opStats" class="op-stats"></div>
+        <div class="btn-row wrap">
+          <button id="opCsv" class="btn">Unduh papan juara (CSV)</button>
+          <button id="opResetToday" class="btn">Reset papan hari ini</button>
+          <button id="opResetAll" class="btn danger">Reset semua papan</button>
+          <button id="opResetStats" class="btn danger">Reset statistik</button>
+          <button class="btn primary" data-go="title">Tutup</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <button id="btnDash" aria-label="Melesat, jeda tiga detik">➤ <span>Melesat</span></button>
+  <div id="rotate" class="hidden">
+    <div>
+      <div class="rotate-icon">📱↻</div>
+      <p>Putar perangkat ke posisi mendatar agar lebih nyaman dimainkan.</p>
+      <button id="btnRotateOk" class="btn">Tetap main</button>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/qr.js"></script>
+  <script src="js/art.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>

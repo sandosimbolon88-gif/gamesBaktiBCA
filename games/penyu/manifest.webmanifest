@@ -1,0 +1,15 @@
+{
+  "name": "Pulang ke Banyuwangi",
+  "short_name": "Penyu Pulang",
+  "description": "Game edukasi konservasi penyu Banyuwangi. Bakti Lingkungan, Bakti BCA.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#04192f",
+  "theme_color": "#0a3f6b",
+  "lang": "id",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

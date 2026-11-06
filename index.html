@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Games Bakti Lingkungan</title>
+  <meta name="description" content="Kumpulan game edukasi untuk program Bakti Lingkungan Bakti BCA.">
+  <link rel="icon" href="games/penyu/icon.svg" type="image/svg+xml">
+  <style>
+    :root { --bg: #04192f; --card: rgba(255,255,255,0.07); --line: rgba(255,255,255,0.16); --text: #fff; --muted: #b9d6ec; --accent: #ff8a3d; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at top, #0f5f8f, var(--bg) 70%); color: var(--text); font-family: "Trebuchet MS", "Segoe UI", system-ui, sans-serif; padding: 2rem 1rem; }
+    main { max-width: 60rem; margin: 0 auto; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin: 0 0 0.3rem; }
+    p.lead { color: var(--muted); margin: 0 0 2rem; font-size: 1.1rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; }
+    .card { display: block; background: var(--card); border: 2px solid var(--line); border-radius: 1.2rem; padding: 1.4rem; color: inherit; text-decoration: none; }
+    a.card:hover { border-color: var(--accent); }
+    .card h2 { margin: 0.6rem 0 0.3rem; font-size: 1.4rem; }
+    .card p { color: var(--muted); margin: 0; line-height: 1.45; }
+    .tag { display: inline-block; font-size: 0.85rem; font-weight: 700; padding: 0.2rem 0.7rem; border-radius: 999px; background: rgba(127,216,255,0.18); color: #cdefff; }
+    .soon { opacity: 0.6; }
+    .play { display: inline-block; margin-top: 1rem; background: linear-gradient(180deg, #ffb26b, var(--accent)); color: #3a1600; font-weight: 800; padding: 0.6rem 1.4rem; border-radius: 999px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Games Bakti Lingkungan</h1>
+    <p class="lead">Game edukasi untuk pameran program Bakti Lingkungan, Bakti BCA. Bisa dimainkan di browser apa pun: tablet, HP, laptop, atau TV sentuh.</p>
+    <div class="grid">
+      <a class="card" href="games/penyu/">
+        <span class="tag">Konservasi Penyu · Banyuwangi · v8</span>
+        <h2>Pulang ke Banyuwangi</h2>
+        <p>Makan sesuai diet, sambung kombo, dan tumbuh di samudra. Empat spesies penyu, lima tahap petualangan, dan fakta dengan sumber.</p>
+        <span class="play">Main sekarang</span>
+      </a>
+      <div class="card soon">
+        <span class="tag">Pelestarian Orangutan</span>
+        <h2>Sekolah Hutan</h2>
+        <p>Segera hadir.</p>
+      </div>
+      <div class="card soon">
+        <span class="tag">Penanaman Pohon &amp; Mata Air</span>
+        <h2>Hutan Mata Air</h2>
+        <p>Segera hadir.</p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
+

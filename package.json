@@ -1,0 +1,6 @@
+{
+  "name": "games-bakti-bca",
+  "private": true,
+  "scripts": { "test": "node tests/game-smoke.cjs" },
+  "devDependencies": { "playwright": "1.57.0" }
+}
